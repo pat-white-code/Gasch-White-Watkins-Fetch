@@ -18,7 +18,7 @@ window.onload = function() {
 // }
 
 const getUsers = () => {
-  fetch('https://randomuser.me/api/?results=500')
+  fetch('https://randomuser.me/api/?results=100')
   .then(res => res.json())
   .then(resArray => {
     arrayOfUsers = resArray.results;
