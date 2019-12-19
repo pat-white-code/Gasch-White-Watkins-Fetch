@@ -32,9 +32,10 @@ displayUsers = (arr) => {
     userSection.appendChild(userBtn);
   })
 }
-window.onLoad = getPosts();
+// window.onLoad = getPosts();
 
 
 // fiveUsers
 //   .then(res => res.json())
 //   .then(json => console.log(json));
+
