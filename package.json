@@ -1,0 +1,19 @@
+{
+  "name": "gasch-white-watkins-fetch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pat-white-code/Gasch-White-Watkins-Fetch.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pat-white-code/Gasch-White-Watkins-Fetch/issues"
+  },
+  "homepage": "https://github.com/pat-white-code/Gasch-White-Watkins-Fetch#readme"
+}
