@@ -4,10 +4,11 @@ console.log('app.js here...');
 
 let userArr = [];
 const getPosts = (fetch, num) => {
-fetch('https://randomuser.me/api/?results='+num)
-.then(res => res.json())
+  return fetch('https://randomuser.me/api/?results='+num)
+    .then(res => res.json())
+    .then(json => json.restults[0])
 // .then(json => {userArr = json.results.map(user=> user)})
-.then(json => displayUsers(json.results))
+// .then(json => displayUsers(json.results))
 };
 
 displayUsers = (arr) => {
@@ -58,25 +59,24 @@ getPosts(fakeFetch, 123)
 })
 
 it('parses the response of fetch correctly', (done) => {
-const fakeFetch = () => {
-return Promise.resolve({
-json: () => Promise.resolve({
-results: [
-{
-cell: "633-586-155",
-dob: {date: "1966-03-28T00:10:47.921Z", age: 53},
-email: "valentin.alonso@example.com",
-gender: "male",
-id: {name: "DNI", value: "05329900-G"},
-}
-]
-})
-})
-}
-getPosts(fakeFetch, 1)
-.then(result => {
-assert(result.cell === "633-586-155")
-done()
-})
+  const fakeFetch = () => {
+    return Promise.resolve({
+      json: () => Promise.resolve({
+        results: [
+          {
+            name: {title: 'Mr', first: 'Altan', last: 'Van de Krol'},
+            nat: 'NL',
+            phone: '(445)-042-6223',
+            picture: {thumbnail: 'https://randomuser.me/api/portraits/thumb/men/12.jpg'}
+          }
+        ]
+      })
+    })
+  }
+  getPosts(fakeFetch, 12345)
+    .then(result => {
+      assert(result.name.first === 'Altan')
+      done()
+    })
 })
 })
