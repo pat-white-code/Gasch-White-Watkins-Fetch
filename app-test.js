@@ -4,11 +4,16 @@ console.log('app.js here...');
 
 let userArr = [];
 const getPosts = (fetch, num) => {
-  fetch('https://randomuser.me/api/?results='+num)
-  .then(res => res.json())
-  // .then(json => {userArr = json.results.map(user=> user)})
-  .then(json => displayUsers(json.results))
+  return fetch('https://randomuser.me/api/?results='+num)
+    .then(res => res.json())
+    .then(json => json.results[0])
 };
+
+function getAnimals(fetch, id) {
+  return fetch('http://api.animalfarmgame.com/animals/' + id)
+    .then(response => response.json())
+    .then(data => data.results[0])
+}
 
 displayUsers = (arr) => {
   arr.forEach(user => {
@@ -63,19 +68,18 @@ describe('getPosts', () => {
         json: () => Promise.resolve({
           results: [
             { 
-              cell: "633-586-155",
-              dob: {date: "1966-03-28T00:10:47.921Z", age: 53},
-              email: "valentin.alonso@example.com",
-              gender: "male",
-              id: {name: "DNI", value: "05329900-G"},
+              name: {title: "Mr", first: "Altan", last: "Van de Krol"},
+              nat: "NL",
+              phone: "(445)-042-6223",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
             }
           ]
         })
       })
     }
-    getPosts(fakeFetch, 1)
+    getPosts(fakeFetch, 12345)
       .then(result => {
-        assert(result.cell === "633-586-155")
+        assert(result.name.first === "Altan")
         done()
       })
   })
