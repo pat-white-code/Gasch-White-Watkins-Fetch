@@ -151,4 +151,38 @@ describe('getPosts', () => {
         done()
       })
   })
+
+  it('should have a picture that points to an object with a thumnail which points to a url', (done) => {
+    const fakeFetch = () => {
+      return Promise.resolve({
+        json: () => Promise.resolve({
+          results: [
+            { 
+              name: {title: "Mr", first: "Altan", last: "Van de Krol"},
+              nat: "NL",
+              phone: "(445)-042-6223",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            },
+            { 
+              name: {title: "Mr", first: "Pat", last: "White"},
+              nat: "NL",
+              phone: "(512)-555-1234",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            },
+            { 
+              name: {title: "Mr", first: "David", last: "White"},
+              nat: "NL",
+              phone: "(703)-777-9876",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            }
+          ]
+        })
+      })
+    }
+    getPosts(fakeFetch, 3)
+      .then(results => {
+        assert(/jpg/.test(results[0].picture.thumbnail))
+        done()
+      })
+  })
 })
