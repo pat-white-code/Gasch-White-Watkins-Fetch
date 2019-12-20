@@ -6,7 +6,7 @@ let userArr = [];
 const getPosts = (fetch, num) => {
   return fetch('https://randomuser.me/api/?results='+num)
     .then(res => res.json())
-    .then(json => json.results[0])
+    .then(json => json.results)
 };
 
 function getAnimals(fetch, id) {
@@ -78,8 +78,76 @@ describe('getPosts', () => {
       })
     }
     getPosts(fakeFetch, 12345)
-      .then(result => {
-        assert(result.name.first === "Altan")
+      .then(results => {
+        assert(results[0].name.first === "Altan")
+        done()
+      })
+  })
+
+  it('returns multiple results', (done) => {
+    const fakeFetch = () => {
+      return Promise.resolve({
+        json: () => Promise.resolve({
+          results: [
+            { 
+              name: {title: "Mr", first: "Altan", last: "Van de Krol"},
+              nat: "NL",
+              phone: "(445)-042-6223",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            },
+            { 
+              name: {title: "Mr", first: "Pat", last: "White"},
+              nat: "NL",
+              phone: "(512)-555-1234",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            },
+            { 
+              name: {title: "Mr", first: "David", last: "White"},
+              nat: "NL",
+              phone: "(703)-777-9876",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            }
+          ]
+        })
+      })
+    }
+    getPosts(fakeFetch, 3)
+      .then(results => {
+        assert.equal(results.length, 3)
+        done()
+      })
+  })
+
+  it('doesnt reveal fake information', (done) => {
+    const fakeFetch = () => {
+      return Promise.resolve({
+        json: () => Promise.resolve({
+          results: [
+            { 
+              name: {title: "Mr", first: "Altan", last: "Van de Krol"},
+              nat: "NL",
+              phone: "(445)-042-6223",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            },
+            { 
+              name: {title: "Mr", first: "Pat", last: "White"},
+              nat: "NL",
+              phone: "(512)-555-1234",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            },
+            { 
+              name: {title: "Mr", first: "David", last: "White"},
+              nat: "NL",
+              phone: "(703)-777-9876",
+              picture: {thumbnail: "https://randomuser.me/api/portraits/thumb/men/12.jpg"}
+            }
+          ]
+        })
+      })
+    }
+    getPosts(fakeFetch, 3)
+      .then(results => {
+        assert(!results[4])
         done()
       })
   })
