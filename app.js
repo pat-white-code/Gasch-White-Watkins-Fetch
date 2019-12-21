@@ -5,7 +5,9 @@ const getPosts = () => {
   fetch('https://randomuser.me/api/?results=5')
   .then(res => res.json())
   // .then(json => {userArr = json.results.map(user=> user)})
-  .then(json => displayUsers(json.results))
+  .then(json => {
+    console.log(json.results)
+    displayUsers(json.results)})
 };
 
 displayUsers = (arr) => {
